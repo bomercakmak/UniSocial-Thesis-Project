@@ -1,5 +1,7 @@
-function App() {
-  return <h1>Welcome to project!</h1>;
-}
+import Button from "@mui/material/Button";
+
+const App = () => {
+  return <Button variant="contained">Hello World</Button>;
+};
 
 export default App;
