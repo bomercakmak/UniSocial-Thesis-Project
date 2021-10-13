@@ -1,7 +1,7 @@
-import Button from "@mui/material/Button";
+import Login from "./pages/Login";
 
 const App = () => {
-  return <Button variant="contained">Hello World</Button>;
+  return <Login />;
 };
 
 export default App;
