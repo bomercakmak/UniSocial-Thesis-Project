@@ -1,10 +1,9 @@
-import * as React from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -12,18 +11,24 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "../components/Copyright/Copyright";
+import Copyright from "../../components/Copyright/Copyright";
+import { loginUser } from "../../redux/actions/auth";
 
 const theme = createTheme();
 
-export default function Login() {
+const Login = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
+  const userStatus = useSelector((state) => state.auth.userStatus);
+  const error = useSelector((state) => state.auth.error);
+
+  console.log("selector", loading, userStatus, error);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email");
+    const password = data.get("password");
+    dispatch(loginUser(email, password));
   };
 
   return (
@@ -60,7 +65,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Login
             </Typography>
             <Box
               component="form"
@@ -88,10 +93,6 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -108,7 +109,7 @@ export default function Login() {
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"Don't have an account? Register"}
                   </Link>
                 </Grid>
               </Grid>
@@ -119,4 +120,6 @@ export default function Login() {
       </Grid>
     </ThemeProvider>
   );
-}
+};
+
+export default Login;
