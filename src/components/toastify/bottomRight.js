@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 
-function bottomRight() {
+export default function BottomRight() {
   return (
     <ToastContainer
       position="bottom-right"
@@ -15,5 +15,3 @@ function bottomRight() {
     />
   );
 }
-
-export default bottomRight;

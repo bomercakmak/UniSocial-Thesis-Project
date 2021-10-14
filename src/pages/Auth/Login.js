@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
 import { loginUser } from "../../redux/actions/auth";
 import { toast } from "react-toastify";
+import BottomRight from "../../components/toastify/BottomRight";
 
 const theme = createTheme();
 
@@ -35,15 +36,15 @@ const Login = () => {
   useEffect(() => {
     console.log(error);
     if (error) {
-      toast.error("Wow so easy!");
+      toast.error("Please check your email and password and try again!");
     }
   }, [error]);
 
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
+        <BottomRight />
         <Grid
           item
           xs={false}
