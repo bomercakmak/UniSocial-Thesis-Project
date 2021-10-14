@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
 import { loginUser } from "../../redux/actions/auth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const theme = createTheme();
 
@@ -35,7 +35,7 @@ const Login = () => {
   useEffect(() => {
     console.log(error);
     if (error) {
-      toast("Wow so easy!");
+      toast.error("Wow so easy!");
     }
   }, [error]);
 
@@ -101,8 +101,6 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                minLength={6}
-                helperText="Password must be at least 9 characters"
               />
 
               <Button
