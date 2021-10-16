@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LinkMU from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -33,7 +33,6 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(error);
     if (error) {
       toast.error("Please check your email and password and try again!");
     }
@@ -121,11 +120,9 @@ const Login = () => {
                   </Link> */}
                 </Grid>
                 <Grid item>
-                  <Link to="/register">
-                    <LinkMU variant="body2">
-                      {"Don't have an account? Register"}
-                    </LinkMU>
-                  </Link>
+                  <LinkMU component={NavLink} to="/register" variant="body2">
+                    {"Don't have an account? Register"}
+                  </LinkMU>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
