@@ -15,14 +15,27 @@ import Copyright from "../../components/Copyright/Copyright";
 const theme = createTheme();
 
 const Register = () => {
+  let email,
+    password,
+    firstName,
+    lastName = "";
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    email = data.get("email");
+    password = data.get("password");
+    firstName = data.get("firstName");
+    lastName = data.get("lastName");
+    if (!email || !password || !firstName || !lastName) {
+      console.log("Please complate all field");
+      return;
+    }
+
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
+      email,
+      password,
+      firstName,
+      lastName,
     });
   };
 
@@ -91,6 +104,7 @@ const Register = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  helperText="Password must be at least 6 characters."
                 />
               </Grid>
             </Grid>
