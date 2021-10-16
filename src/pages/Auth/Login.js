@@ -92,6 +92,7 @@ const Login = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={error}
               />
               <TextField
                 margin="normal"
@@ -102,9 +103,11 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={error}
               />
 
               <Button
+                disabled={loading}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -114,9 +117,9 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2">
