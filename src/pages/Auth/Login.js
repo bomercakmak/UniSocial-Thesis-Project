@@ -22,10 +22,8 @@ const theme = createTheme();
 const Login = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
-  const userStatus = useSelector((state) => state.auth.userStatus);
   const error = useSelector((state) => state.auth.error);
 
-  console.log("selector", loading, userStatus, error);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
