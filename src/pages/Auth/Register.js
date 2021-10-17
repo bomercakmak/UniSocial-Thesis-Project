@@ -19,6 +19,7 @@ const theme = createTheme();
 const Register = () => {
   let email,
     password,
+    rPassword,
     firstName,
     lastName = "";
   const handleSubmit = (event) => {
@@ -28,13 +29,23 @@ const Register = () => {
     password = data.get("password");
     firstName = data.get("firstName");
     lastName = data.get("lastName");
+    rPassword = data.get("rPassword");
     if (
       !email.trim() ||
       !password.trim() ||
+      !rPassword.trim() ||
       !firstName.trim() ||
       !lastName.trim()
     ) {
       toast.error("Please fill in the required fields!");
+      return;
+    }
+    if (password.trim().length < 6) {
+      toast.error("Password must be at least 6 characters!");
+      return;
+    }
+    if (password !== rPassword) {
+      toast.error("Password and Repeat Password should be the same!");
       return;
     }
 
@@ -111,6 +122,17 @@ const Register = () => {
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="rPassword"
+                  label="Repeat Password"
+                  type="password"
+                  id="rPassword"
                   autoComplete="new-password"
                   helperText="Password must be at least 6 characters."
                 />
