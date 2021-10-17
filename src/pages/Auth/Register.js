@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
+import BottomRight from "../../components/toastify/BottomRight";
+import { toast } from "react-toastify";
 
 const theme = createTheme();
 
@@ -26,8 +28,13 @@ const Register = () => {
     password = data.get("password");
     firstName = data.get("firstName");
     lastName = data.get("lastName");
-    if (!email || !password || !firstName || !lastName) {
-      console.log("Please complate all field");
+    if (
+      !email.trim() ||
+      !password.trim() ||
+      !firstName.trim() ||
+      !lastName.trim()
+    ) {
+      toast.error("Please fill in the required fields!");
       return;
     }
 
@@ -43,6 +50,7 @@ const Register = () => {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <BottomRight />
         <Box
           sx={{
             marginTop: 8,
