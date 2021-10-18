@@ -6,3 +6,10 @@ export function loginUser(email, password) {
     payload: { email, password },
   };
 }
+
+export function registerUser(newUser) {
+  return {
+    type: type.REGISTER_USER,
+    payload: newUser,
+  };
+}
