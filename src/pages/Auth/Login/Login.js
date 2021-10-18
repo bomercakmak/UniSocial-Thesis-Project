@@ -12,10 +12,10 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "../../components/Copyright/Copyright";
-import { loginUser } from "../../redux/actions/auth";
+import Copyright from "../../../components/Copyright/Copyright";
+import { loginUser } from "../../../redux/actions/auth";
 import { toast } from "react-toastify";
-import BottomRight from "../../components/toastify/BottomRight";
+import BottomRight from "../../../components/toastify/BottomRight";
 
 const theme = createTheme();
 

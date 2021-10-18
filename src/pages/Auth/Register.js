@@ -2,6 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import { useDispatch, useSelector } from "react-redux";
 import LinkMU from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
@@ -17,6 +18,8 @@ import { toast } from "react-toastify";
 const theme = createTheme();
 
 const Register = () => {
+  const dispatch = useDispatch();
+
   let email,
     password,
     rPassword,
@@ -48,6 +51,13 @@ const Register = () => {
       toast.error("Password and Repeat Password should be the same!");
       return;
     }
+    const newUser = {
+      email,
+      password,
+      firstName,
+      lastName,
+    };
+    // dispatch(registerUser(newUser));
 
     console.log({
       email,
