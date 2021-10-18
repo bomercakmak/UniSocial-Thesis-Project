@@ -9,15 +9,33 @@ function* loginUser(action) {
         action.payload.email,
         action.payload.password
       );
-    // const loginStatus = yield call(login);
     yield put({ type: "LOGIN_USER_SUCCESS" });
   } catch (e) {
     yield put({ type: "LOGIN_USER_FAIL", error: e });
   }
 }
 
+function* registerUser(action) {
+  try {
+    yield console.log(action.payload);
+    const response = yield firebase
+      .auth()
+      .createUserWithEmailAndPassword(
+        action.payload.email,
+        action.payload.password
+      );
+    yield console.log(response.user.uid);
+    const ref = yield firebase.firestore().collection("users");
+    yield ref.doc(response.user.uid).set(action.payload);
+    yield put({ type: "REGISTER_USER_SUCCESS" });
+  } catch (e) {
+    yield put({ type: "REGISTER_USER_FAIL", error: e });
+  }
+}
+
 function* authSaga() {
   yield takeEvery("LOGIN_USER", loginUser);
+  yield takeEvery("REGISTER_USER", registerUser);
 }
 
 export default authSaga;

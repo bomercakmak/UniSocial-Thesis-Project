@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
 import BottomRight from "../../components/toastify/BottomRight";
 import { toast } from "react-toastify";
+import { registerUser } from "../../redux/actions/auth";
 
 const theme = createTheme();
 
@@ -57,7 +58,7 @@ const Register = () => {
       firstName,
       lastName,
     };
-    // dispatch(registerUser(newUser));
+    dispatch(registerUser(newUser));
 
     console.log({
       email,

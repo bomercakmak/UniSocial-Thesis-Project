@@ -26,6 +26,24 @@ export default function auth(state = initialState, action) {
         loading: false,
         error: action.error,
       };
+    case type.REGISTER_USER:
+      return {
+        ...state,
+        loading: true,
+      };
+    case type.REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case type.REGISTER_USER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+
     default:
       return state;
   }
