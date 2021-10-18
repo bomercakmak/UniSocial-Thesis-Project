@@ -30,6 +30,7 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case type.REGISTER_USER_SUCCESS:
       return {

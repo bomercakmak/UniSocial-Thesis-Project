@@ -20,7 +20,9 @@ const theme = createTheme();
 
 const Register = () => {
   const dispatch = useDispatch();
-
+  const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
+  console.log(loading, error);
   let email,
     password,
     rPassword,
@@ -59,13 +61,6 @@ const Register = () => {
       lastName,
     };
     dispatch(registerUser(newUser));
-
-    console.log({
-      email,
-      password,
-      firstName,
-      lastName,
-    });
   };
 
   return (
@@ -150,12 +145,13 @@ const Register = () => {
               </Grid>
             </Grid>
             <Button
+              disabled={loading}
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {!loading ? "Sign Up" : "Creating an account, please wait..."}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

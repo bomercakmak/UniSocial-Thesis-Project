@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { put, takeEvery } from "redux-saga/effects";
 import firebase from "../../api/firebase";
 
@@ -27,9 +28,11 @@ function* registerUser(action) {
     yield console.log(response.user.uid);
     const ref = yield firebase.firestore().collection("users");
     yield ref.doc(response.user.uid).set(action.payload);
+    toast.success("Your account has been successfully created!");
     yield put({ type: "REGISTER_USER_SUCCESS" });
   } catch (e) {
-    yield put({ type: "REGISTER_USER_FAIL", error: e });
+    toast.error(e.message);
+    yield put({ type: "REGISTER_USER_FAIL", error: e.message });
   }
 }
 
