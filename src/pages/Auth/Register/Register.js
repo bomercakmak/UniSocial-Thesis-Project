@@ -11,10 +11,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "../../components/Copyright/Copyright";
-import BottomRight from "../../components/toastify/BottomRight";
+import Copyright from "../../../components/Copyright/Copyright";
+import BottomRight from "../../../components/toastify/BottomRight";
 import { toast } from "react-toastify";
-import { registerUser } from "../../redux/actions/auth";
+import { registerUser } from "../../../redux/actions/auth";
+import ReactLoading from "react-loading";
 
 const theme = createTheme();
 
@@ -151,7 +152,16 @@ const Register = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {!loading ? "Sign Up" : "Creating an account, please wait..."}
+              {!loading ? (
+                "Sign Up"
+              ) : (
+                <ReactLoading
+                  type={"spinningBubbles"}
+                  color={"#1976D2"}
+                  height={30}
+                  width={34}
+                />
+              )}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

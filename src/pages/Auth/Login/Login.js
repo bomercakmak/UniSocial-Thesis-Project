@@ -16,6 +16,7 @@ import Copyright from "../../../components/Copyright/Copyright";
 import { loginUser } from "../../../redux/actions/auth";
 import { toast } from "react-toastify";
 import BottomRight from "../../../components/toastify/BottomRight";
+import ReactLoading from "react-loading";
 
 const theme = createTheme();
 
@@ -111,7 +112,16 @@ const Login = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                {!loading ? (
+                  "Sign Up"
+                ) : (
+                  <ReactLoading
+                    type={"spinningBubbles"}
+                    color={"#1976D2"}
+                    height={30}
+                    width={34}
+                  />
+                )}
               </Button>
               <Grid container>
                 <Grid item xs>
