@@ -1,8 +1,9 @@
+import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
-import Home from "./pages/Home/Home";
+import Dashboard from "./pages/Home/Home";
 
 const App = () => {
-  return <Register />;
+  return <Dashboard />;
 };
 
 export default App;
