@@ -3,7 +3,13 @@ import Register from "./pages/Auth/Register/Register";
 import Dashboard from "./pages/Home/Home";
 
 const App = () => {
-  return <Dashboard />;
+  return (
+    <>
+      <Dashboard>
+        <h1>Hello</h1>
+      </Dashboard>
+    </>
+  );
 };
 
 export default App;
