@@ -1,7 +1,9 @@
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import Input from "@mui/material/Input";
 import { useDispatch, useSelector } from "react-redux";
 import LinkMU from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
@@ -16,6 +18,10 @@ import BottomRight from "../../../components/toastify/BottomRight";
 import { toast } from "react-toastify";
 import { registerUser } from "../../../redux/actions/auth";
 import ReactLoading from "react-loading";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import { storage } from "../../../api/firebase";
+import CircularProgress from "@mui/material/CircularProgress";
+import profileImg from "../../../assets/img/profile.png";
 
 const theme = createTheme();
 
@@ -23,11 +29,14 @@ const Register = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
+  const [loadingIn, setLoadingIn] = useState(false);
+  const [profileImageSrc, setProfileImageSrc] = useState(profileImg);
   console.log(loading, error);
   let email,
     password,
     rPassword,
     firstName,
+    profileImgUrl,
     lastName = "";
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,13 +64,51 @@ const Register = () => {
       toast.error("Password and Repeat Password should be the same!");
       return;
     }
+    profileImgUrl = profileImageSrc;
+    if (profileImageSrc === profileImg) {
+      profileImgUrl =
+        "https://firebasestorage.googleapis.com/v0/b/unisocial-thesis-project.appspot.com/o/images%2FPikPng.com_profile-icon-png_805068.png?alt=media&token=c473bf53-1207-4acd-a581-0a0516738a99";
+    }
     const newUser = {
       email,
       password,
       firstName,
       lastName,
+      profileImgUrl,
     };
     dispatch(registerUser(newUser));
+  };
+
+  const profileImgChange = (e) => {
+    console.log(e);
+    if (e.target.files[0]) {
+      setLoadingIn(true);
+      const uploadTask = storage
+        .ref(`images/${e.target.files[0].name}`)
+        .put(e.target.files[0]);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          setLoadingIn(false);
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(e.target.files[0].name)
+            .getDownloadURL()
+            .then((url) => {
+              setProfileImageSrc(url);
+              setLoadingIn(false);
+            });
+        }
+      );
+    } else {
+      setProfileImageSrc(
+        "https://firebasestorage.googleapis.com/v0/b/unisocial-thesis-project.appspot.com/o/images%2FPikPng.com_profile-icon-png_805068.png?alt=media&token=c473bf53-1207-4acd-a581-0a0516738a99"
+      );
+    }
   };
 
   return (
@@ -90,6 +137,44 @@ const Register = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} align="center" justify="center">
+                {loadingIn && (
+                  <ReactLoading
+                    type={"spinningBubbles"}
+                    color={"#1976D2"}
+                    height={40}
+                    width={49}
+                  />
+                )}
+                <label htmlFor="contained-button-file">
+                  <img
+                    hidden={loadingIn}
+                    style={{ maxHeight: "150px", borderRadius: "50%" }}
+                    src={profileImageSrc}
+                  />
+                  <Input
+                    onChange={profileImgChange}
+                    style={{ display: "none" }}
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                  />
+                  {!loadingIn && (
+                    <ModeEditOutlineIcon
+                      color="primary"
+                      style={{
+                        color: "#286090",
+                        background: "#ddd",
+                        borderRadius: "50%",
+                        marginLeft: "-40px",
+                        fontSize: "40px",
+                        padding: "7px",
+                      }}
+                    />
+                  )}
+                </label>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"

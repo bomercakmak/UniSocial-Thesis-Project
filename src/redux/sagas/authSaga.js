@@ -27,7 +27,9 @@ function* registerUser(action) {
       );
     yield console.log(response.user.uid);
     const ref = yield firebase.firestore().collection("users");
-    yield ref.doc(response.user.uid).set(action.payload);
+    yield ref
+      .doc(response.user.uid)
+      .set({ ...action.payload, userId: response.user.uid });
     toast.success("Your account has been successfully created!");
     yield put({ type: "REGISTER_USER_SUCCESS" });
   } catch (e) {
