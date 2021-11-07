@@ -17,6 +17,7 @@ import Copyright from "../../components/Copyright/Copyright";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -67,6 +68,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function Home(props) {
+  const userStatus = useSelector((state) => state.auth.userStatus);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -118,10 +120,7 @@ function Home(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <Avatar
-                  alt="Cakmak"
-                  src="https://avatars.githubusercontent.com/u/76440686?v=4"
-                />
+                <Avatar alt="Profile" src={userStatus.profileImgUrl} />
               </IconButton>
               <Menu
                 id="menu-appbar"

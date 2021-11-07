@@ -5,7 +5,11 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CategoryIcon from "@mui/icons-material/Category";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import firebase from "../../api/firebase";
+import { confirmAlert } from "react-confirm-alert";
 
 export const mainListItems = (
   <div>
@@ -23,27 +27,45 @@ export const mainListItems = (
     </ListItem>
   </div>
 );
+const logoutClickHandler = () => {
+  console.log("clieck");
+  confirmAlert({
+    title: "Confirm to logout",
+    message: "Are you sure to do this.",
+    buttons: [
+      {
+        label: "Yes",
+        onClick: () => {
+          firebase.auth().signOut();
+        },
+      },
+      {
+        label: "No",
+      },
+    ],
+  });
+};
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListSubheader inset>Your Account</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AccountCircleIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Profile" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <SettingsIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Last quarter" />
+      <ListItemText primary="Profile Settings" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={logoutClickHandler}>
       <ListItemIcon>
-        <AssignmentIcon />
+        <LogoutIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Logout" />
     </ListItem>
   </div>
 );

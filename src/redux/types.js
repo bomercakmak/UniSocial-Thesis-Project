@@ -7,3 +7,6 @@ export const LOGIN_USER_FAIL = "LOGIN_USER_FAIL";
 export const REGISTER_USER = "REGISTER_USER";
 export const REGISTER_USER_SUCCESS = "REGISTER_USER_SUCCESS";
 export const REGISTER_USER_FAIL = "REGISTER_USER_FAIL";
+
+// User Status Types
+export const USER_STATUS = "USER_STATUS";

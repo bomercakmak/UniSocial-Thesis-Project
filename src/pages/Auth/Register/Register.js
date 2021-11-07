@@ -20,7 +20,6 @@ import { registerUser } from "../../../redux/actions/auth";
 import ReactLoading from "react-loading";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { storage } from "../../../api/firebase";
-import CircularProgress from "@mui/material/CircularProgress";
 import profileImg from "../../../assets/img/profile.png";
 
 const theme = createTheme();
@@ -28,10 +27,8 @@ const theme = createTheme();
 const Register = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
   const [loadingIn, setLoadingIn] = useState(false);
   const [profileImageSrc, setProfileImageSrc] = useState(profileImg);
-  console.log(loading, error);
   let email,
     password,
     rPassword,
@@ -78,9 +75,7 @@ const Register = () => {
     };
     dispatch(registerUser(newUser));
   };
-
   const profileImgChange = (e) => {
-    console.log(e);
     if (e.target.files[0]) {
       setLoadingIn(true);
       const uploadTask = storage
@@ -148,6 +143,7 @@ const Register = () => {
                 )}
                 <label htmlFor="contained-button-file">
                   <img
+                    alt="profile"
                     hidden={loadingIn}
                     style={{ maxHeight: "150px", borderRadius: "50%" }}
                     src={profileImageSrc}

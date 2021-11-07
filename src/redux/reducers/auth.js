@@ -1,13 +1,18 @@
 import * as type from "../types";
 
 const initialState = {
-  userStatus: [],
+  userStatus: "Loading",
   loading: false,
   error: null,
 };
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
+    case type.USER_STATUS:
+      return {
+        ...state,
+        userStatus: action.payload,
+      };
     case type.LOGIN_USER:
       return {
         ...state,
@@ -18,7 +23,6 @@ export default function auth(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        userStatus: action.userStatus,
       };
     case type.LOGIN_USER_FAIL:
       return {

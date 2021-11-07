@@ -13,3 +13,10 @@ export function registerUser(newUser) {
     payload: newUser,
   };
 }
+
+export function userStatus(user) {
+  return {
+    type: type.USER_STATUS,
+    payload: user,
+  };
+}
