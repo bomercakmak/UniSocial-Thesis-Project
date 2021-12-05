@@ -25,20 +25,26 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function CardComp() {
+export default function CardComp({ event }) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const unixTime = event.eventDate.seconds;
+  const date = new Date(unixTime * 1000);
   return (
     <Card>
-      <CardHeader title="Shrimp and Chorizo Paella" />
+      <CardHeader title={`${event.eventName}`} />
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar
+            src={event.eventOwnerProfileImg}
+            alt={event.eventOwnerName}
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+          >
+            {event.eventOwnerName.substring(0, 2)}
           </Avatar>
         }
         action={
@@ -46,20 +52,18 @@ export default function CardComp() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={event.eventOwnerName}
+        subheader={date.toLocaleString()}
       />
       <CardMedia
         component="img"
         height="auto"
-        image="https://balloni.de/wp-content/uploads/Event-Startbild2.jpg"
-        alt="Paella dish"
+        image={event.eventImg}
+        alt={event.Name}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {event.eventDescription}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

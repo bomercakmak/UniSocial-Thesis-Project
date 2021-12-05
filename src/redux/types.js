@@ -13,5 +13,10 @@ export const CREATE_EVENT = "CREATE_EVENT";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const CREATE_EVENT_FAIL = "CREATE_EVENT_FAIL";
 
+// Get Event Types
+export const GET_EVENT = "GET_EVENT";
+export const GET_EVENT_SUCCESS = "GET_EVENT_SUCCESS";
+export const GET_EVENT_FAIL = "GET_EVENT_FAIL";
+
 // User Status Types
 export const USER_STATUS = "USER_STATUS";

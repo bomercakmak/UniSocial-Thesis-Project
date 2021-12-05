@@ -6,3 +6,10 @@ export function createEvent(newEvent, history) {
     payload: { newEvent, history },
   };
 }
+
+export function getEvents(events) {
+  return {
+    type: type.GET_EVENT,
+    events: events,
+  };
+}

@@ -5,7 +5,7 @@ import Register from "../pages/Auth/Register/Register";
 import Login from "../pages/Auth/Login/Login";
 import Home from "../pages/Home/Home";
 import HomeCards from "../pages/HomeCards/HomeCards";
-import CreatePost from "../pages/CreatePost/CreatePost";
+import CreateEvent from "../pages/CreateEvent/CreateEvent";
 
 const Routes = () => {
   const userStatus = useSelector((state) => state.auth.userStatus);
@@ -62,8 +62,8 @@ const Routes = () => {
           <Route path="/home">
             <HomeCards />
           </Route>
-          <Route path="/createPost">
-            <CreatePost />
+          <Route path="/createEvent">
+            <CreateEvent />
           </Route>
           <Route path="/">404</Route>
         </Switch>

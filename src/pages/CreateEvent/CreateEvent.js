@@ -27,7 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createEvent } from "../../redux/actions/event";
 import { useHistory } from "react-router-dom";
 
-const CreatePost = () => {
+const CreateEvent = () => {
   const history = useHistory();
   const [loadingIn, setLoadingIn] = useState(false);
   const [eventImageSrc, setEventImageSrc] = useState(noImg);
@@ -57,10 +57,15 @@ const CreatePost = () => {
       toast.error("Please fill in the required fields!");
       return;
     }
+    let eventImgLast = eventImageSrc;
+    if (eventImgLast === noImg) {
+      eventImgLast =
+        "https://firebasestorage.googleapis.com/v0/b/unisocial-thesis-project.appspot.com/o/images%2FnoImg.jpg?alt=media&token=b9e71db6-0ab6-46ad-bdb7-a0e3c9e7cac5";
+    }
     const newEvent = {
       eventName: eventName,
       eventId: uuidv4(),
-      eventImg: eventImageSrc,
+      eventImg: eventImgLast,
       eventDate: valueTime,
       eventPlace: eventPlace,
       eventCategory: category,
@@ -192,6 +197,7 @@ const CreatePost = () => {
               required
               fullWidth
               onChange={(newValue) => {
+                console.log(newValue);
                 setValueTime(newValue);
               }}
               minDate={new Date()}
@@ -375,4 +381,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreateEvent;

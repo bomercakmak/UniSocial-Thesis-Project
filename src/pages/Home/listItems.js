@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 export const mainListItems = (
   <div>
-    <ListItem button component={Link} to={"/createPost"}>
+    <ListItem button component={Link} to={"/createEvent"}>
       <ListItemIcon>
         <AddCircleOutlineIcon color="primary" />
       </ListItemIcon>

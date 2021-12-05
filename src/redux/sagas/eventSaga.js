@@ -14,9 +14,18 @@ function* createEvent(action) {
     yield put({ type: "CREATE_EVENT_FAIL", error: e.message });
   }
 }
+function* getEvent(action) {
+  try {
+    yield put({ type: "GET_EVENT_SUCCESS", events: action.events });
+  } catch (e) {
+    toast.error(e.message);
+    yield put({ type: "GET_EVENT_FAIL", error: e });
+  }
+}
 
 function* eventSaga() {
   yield takeEvery("CREATE_EVENT", createEvent);
+  yield takeEvery("GET_EVENT", getEvent);
 }
 
 export default eventSaga;
