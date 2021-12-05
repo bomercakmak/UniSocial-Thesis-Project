@@ -4,6 +4,8 @@ import ReactLoading from "react-loading";
 import Register from "../pages/Auth/Register/Register";
 import Login from "../pages/Auth/Login/Login";
 import Home from "../pages/Home/Home";
+import HomeCards from "../pages/HomeCards/HomeCards";
+import CreatePost from "../pages/CreatePost/CreatePost";
 
 const Routes = () => {
   const userStatus = useSelector((state) => state.auth.userStatus);
@@ -58,7 +60,10 @@ const Routes = () => {
           </Route>
           {/* ************************************************ */}
           <Route path="/home">
-            <h1>Home</h1>
+            <HomeCards />
+          </Route>
+          <Route path="/createPost">
+            <CreatePost />
           </Route>
           <Route path="/">404</Route>
         </Switch>

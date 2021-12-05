@@ -10,10 +10,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import firebase from "../../api/firebase";
 import { confirmAlert } from "react-confirm-alert";
+import { Link } from "react-router-dom";
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button component={Link} to={"/createPost"}>
       <ListItemIcon>
         <AddCircleOutlineIcon color="primary" />
       </ListItemIcon>

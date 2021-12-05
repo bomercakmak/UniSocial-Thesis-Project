@@ -18,6 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useSelector } from "react-redux";
+import BottomRight from "../../components/toastify/BottomRight";
 
 const drawerWidth = 240;
 
@@ -82,6 +83,7 @@ function Home(props) {
   };
   return (
     <ThemeProvider theme={mdTheme}>
+      <BottomRight />
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
