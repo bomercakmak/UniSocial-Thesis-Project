@@ -6,6 +6,7 @@ import Login from "../pages/Auth/Login/Login";
 import Home from "../pages/Home/Home";
 import HomeCards from "../pages/HomeCards/HomeCards";
 import CreateEvent from "../pages/CreateEvent/CreateEvent";
+import Blog from "../pages/Event/Event";
 
 const Routes = () => {
   const userStatus = useSelector((state) => state.auth.userStatus);
@@ -59,13 +60,18 @@ const Routes = () => {
             <Redirect to="/home" />
           </Route>
           {/* ************************************************ */}
-          <Route path="/home">
+          <Route exact path="/event/:id">
+            <Blog />
+          </Route>
+          <Route exact path="/events">
             <HomeCards />
           </Route>
           <Route path="/createEvent">
             <CreateEvent />
           </Route>
-          <Route path="/">404</Route>
+          <Route exact path="/">
+            404
+          </Route>
         </Switch>
       </Home>
     );

@@ -13,6 +13,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { NavLink } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,7 +36,12 @@ export default function CardComp({ event }) {
   const date = new Date(unixTime * 1000);
   return (
     <Card>
-      <CardHeader title={`${event.eventName}`} />
+      <NavLink
+        to={`/event/${event.eventId}`}
+        style={{ color: "inherit", textDecoration: "underline" }}
+      >
+        <CardHeader title={`${event.eventName}`} />
+      </NavLink>
       <CardHeader
         avatar={
           <Avatar
@@ -55,12 +61,18 @@ export default function CardComp({ event }) {
         title={event.eventOwnerName}
         subheader={date.toLocaleString()}
       />
-      <CardMedia
-        component="img"
-        height="auto"
-        image={event.eventImg}
-        alt={event.Name}
-      />
+      <NavLink
+        to={`/event/${event.eventId}`}
+        style={{ color: "inherit", textDecoration: "underline" }}
+      >
+        <CardMedia
+          component="img"
+          height="auto"
+          image={event.eventImg}
+          alt={event.Name}
+        />
+      </NavLink>
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {event.eventDescription}

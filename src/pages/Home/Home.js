@@ -19,6 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useSelector } from "react-redux";
 import BottomRight from "../../components/toastify/BottomRight";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -104,6 +105,7 @@ function Home(props) {
             >
               <MenuIcon />
             </IconButton>
+
             <Typography
               component="h1"
               variant="h6"
@@ -111,7 +113,12 @@ function Home(props) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              UniSocial
+              <NavLink
+                to={`/events`}
+                style={{ color: "inherit", textDecoration: "inherit" }}
+              >
+                UniSocial
+              </NavLink>
             </Typography>
             <div>
               <IconButton

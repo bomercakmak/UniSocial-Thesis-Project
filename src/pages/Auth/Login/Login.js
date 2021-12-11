@@ -113,7 +113,7 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
               >
                 {!loading ? (
-                  "Sign Up"
+                  "Login"
                 ) : (
                   <ReactLoading
                     type={"spinningBubbles"}
