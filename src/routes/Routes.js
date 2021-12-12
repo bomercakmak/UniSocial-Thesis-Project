@@ -54,10 +54,10 @@ const Routes = () => {
         <Switch>
           {/* ************************************************ */}
           <Route path="/register">
-            <Redirect to="/home" />
+            <Redirect to="/events" />
           </Route>
           <Route path="/login">
-            <Redirect to="/home" />
+            <Redirect to="/events" />
           </Route>
           {/* ************************************************ */}
           <Route exact path="/event/:id">

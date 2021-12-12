@@ -11,9 +11,11 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import firebase from "../../api/firebase";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,13 +29,34 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function CardComp({ event }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const currentUser = useSelector((state) => state.auth.userStatus);
+  const ref = firebase.firestore().collection("events");
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   const unixTime = event.eventDate.seconds;
   const date = new Date(unixTime * 1000);
+  const eventLike = () => {
+    if (event.eventLikes.includes(currentUser.userId)) {
+      let updatedEventLike = [];
+      updatedEventLike = event.eventLikes.filter(
+        (e) => e !== currentUser.userId
+      );
+      const updatedEvent = { ...event, eventLikes: updatedEventLike };
+      ref
+        .doc(event.eventId)
+        .update(updatedEvent)
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
+    event.eventLikes.push(currentUser.userId);
+    ref
+      .doc(event.eventId)
+      .update(event)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Card>
       <NavLink
@@ -59,7 +82,7 @@ export default function CardComp({ event }) {
           </IconButton>
         }
         title={event.eventOwnerName}
-        subheader={date.toLocaleString()}
+        subheader={`On: ${date.toLocaleString()}`}
       />
       <NavLink
         to={`/event/${event.eventId}`}
@@ -75,23 +98,40 @@ export default function CardComp({ event }) {
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {event.eventDescription}
+          {event.eventDescription?.length > 170
+            ? `${event.eventDescription?.substring(0, 170)}...`
+            : event.eventDescription}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={eventLike}>
+          {event.eventLikes.length}
+          {event.eventLikes.includes(currentUser.userId) ? (
+            <FavoriteIcon />
+          ) : (
+            <FavoriteBorderIcon />
+          )}
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+
         <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
+          style={{
+            fontSize: "15px",
+            borderRadius: "0",
+            color: "#1976D2",
+          }}
         >
-          <ExpandMoreIcon />
+          <NavLink
+            to={`/event/${event.eventId}`}
+            style={{
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            Go to the details
+          </NavLink>
         </ExpandMore>
       </CardActions>
     </Card>

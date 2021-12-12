@@ -21,6 +21,7 @@ import ReactLoading from "react-loading";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { storage } from "../../../api/firebase";
 import profileImg from "../../../assets/img/profile.png";
+import firebase from "../../../api/firebase";
 
 const theme = createTheme();
 
@@ -28,18 +29,25 @@ const Register = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.auth.loading);
   const [loadingIn, setLoadingIn] = useState(false);
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp;
   const [profileImageSrc, setProfileImageSrc] = useState(profileImg);
   let email,
     password,
     rPassword,
     firstName,
     profileImgUrl,
+    about,
+    department,
+    social,
     lastName = "";
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     email = data.get("email");
     password = data.get("password");
+    department = data.get("department");
+    about = data.get("about");
+    social = data.get("social");
     firstName = data.get("firstName");
     lastName = data.get("lastName");
     rPassword = data.get("rPassword");
@@ -48,7 +56,9 @@ const Register = () => {
       !password.trim() ||
       !rPassword.trim() ||
       !firstName.trim() ||
-      !lastName.trim()
+      !lastName.trim() ||
+      !about.trim() ||
+      !department.trim()
     ) {
       toast.error("Please fill in the required fields!");
       return;
@@ -71,6 +81,10 @@ const Register = () => {
       password,
       firstName,
       lastName,
+      department,
+      social,
+      about,
+      createdAt: timestamp(),
       profileImgUrl,
     };
     dispatch(registerUser(newUser));
@@ -190,6 +204,34 @@ const Register = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="department"
+                  label="Department"
+                  name="department"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  multiline
+                  rows={4}
+                  id="about"
+                  label="About"
+                  name="about"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="social"
+                  label="Social Media Link"
+                  name="social"
                 />
               </Grid>
               <Grid item xs={12}>

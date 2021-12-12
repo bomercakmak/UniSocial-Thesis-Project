@@ -7,7 +7,7 @@ function* createEvent(action) {
     const ref = yield firebase.firestore().collection("events");
     yield ref.doc(action.payload.newEvent.eventId).set(action.payload.newEvent);
     toast.success("Your event has been successfully created!");
-    action.payload.history.push("/home");
+    action.payload.history.push("/events");
     yield put({ type: "CREATE_EVENT_SUCCESS" });
   } catch (e) {
     toast.error(e.message);

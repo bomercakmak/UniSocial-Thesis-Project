@@ -72,7 +72,7 @@ const theme = createTheme();
 
 const Event = () => {
   const { id } = useParams();
-  // const currentUser = useSelector((state) => state.auth.userStatus);
+  const currentUser = useSelector((state) => state.auth.userStatus);
 
   const [currentEvent, setCurrentEvent] = useState();
   const unixTime = currentEvent?.eventDate.seconds;
@@ -88,12 +88,66 @@ const Event = () => {
       setCurrentEvent(objectval);
     });
   }, [id]);
+  const eventLike = () => {
+    if (currentEvent?.eventLikes.includes(currentUser.userId)) {
+      let updatedEventLike = [];
+      updatedEventLike = currentEvent?.eventLikes.filter(
+        (e) => e !== currentUser.userId
+      );
+      const updatedEvent = { ...currentEvent, eventLikes: updatedEventLike };
+      ref
+        .doc(currentEvent?.eventId)
+        .update(updatedEvent)
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
+    currentEvent.eventLikes.push(currentUser.userId);
+    ref
+      .doc(currentEvent.eventId)
+      .update(currentEvent)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
+  const joinEvent = () => {
+    if (currentEvent?.eventParticipants.includes(currentUser.userId)) {
+      let updatedEventParticipants = [];
+      updatedEventParticipants = currentEvent?.eventParticipants.filter(
+        (e) => e !== currentUser.userId
+      );
+      const updatedEvent = {
+        ...currentEvent,
+        eventParticipants: updatedEventParticipants,
+      };
+      ref
+        .doc(currentEvent?.eventId)
+        .update(updatedEvent)
+        .catch((err) => {
+          console.log(err);
+        });
+      return;
+    }
+    currentEvent.eventParticipants.push(currentUser.userId);
+    ref
+      .doc(currentEvent.eventId)
+      .update(currentEvent)
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title={currentEvent?.eventName} />
+        <Header
+          joinEvent={joinEvent}
+          title={currentEvent?.eventName}
+          likeEvent={eventLike}
+          event={currentEvent}
+        />
         <main>
           <MainFeaturedPost
             post={{
@@ -104,8 +158,8 @@ const Event = () => {
           />
           <Grid container spacing={4}>
             <FeaturedPost
-              description="Hello"
-              date="hehahaahh"
+              description={currentEvent?.eventOwnerAbout}
+              date={currentEvent?.eventOwnerDepartment}
               imageLabel={currentEvent?.eventOwnerName}
               title={currentEvent?.eventOwnerName}
               image={currentEvent?.eventOwnerProfileImg}
