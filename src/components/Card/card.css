@@ -1,0 +1,8 @@
+.event-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.event-card:hover {
+  text-decoration: underline;
+}

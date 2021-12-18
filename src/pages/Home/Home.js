@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems, SecondaryListItems } from "./listItems";
 import Copyright from "../../components/Copyright/Copyright";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
@@ -70,7 +70,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function Home(props) {
-  const userStatus = useSelector((state) => state.auth.userStatus);
+  const currentUser = useSelector((state) => state.auth.userStatus);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -105,7 +105,6 @@ function Home(props) {
             >
               <MenuIcon />
             </IconButton>
-
             <Typography
               component="h1"
               variant="h6"
@@ -120,6 +119,9 @@ function Home(props) {
                 UniSocial
               </NavLink>
             </Typography>
+
+            <Typography>{`${currentUser?.firstName} ${currentUser?.lastName}`}</Typography>
+
             <div>
               <IconButton
                 size="large"
@@ -129,7 +131,7 @@ function Home(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <Avatar alt="Profile" src={userStatus.profileImgUrl} />
+                <Avatar alt="Profile" src={currentUser?.profileImgUrl} />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -146,8 +148,20 @@ function Home(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem
+                  component={NavLink}
+                  to={`/profile/${currentUser?.userId}`}
+                  onClick={handleClose}
+                >
+                  My Profile
+                </MenuItem>
+                <MenuItem
+                  component={NavLink}
+                  to={`/editProfile/${currentUser?.userId}`}
+                  onClick={handleClose}
+                >
+                  Edit Profile
+                </MenuItem>
               </Menu>
             </div>
           </Toolbar>
@@ -168,7 +182,7 @@ function Home(props) {
           <Divider />
           <List>{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List>
+          <List component={SecondaryListItems}></List>
         </Drawer>
         <Box
           component="main"

@@ -59,7 +59,7 @@ function Sidebar(props) {
           ) : (
             <a href={eventFormLink} alt="eventLink">
               {" "}
-              {eventFormLink}
+              Application Link
             </a>
           )}
         </Typography>

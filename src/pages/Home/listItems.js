@@ -11,6 +11,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import firebase from "../../api/firebase";
 import { confirmAlert } from "react-confirm-alert";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const mainListItems = (
   <div>
@@ -47,26 +49,34 @@ const logoutClickHandler = () => {
   });
 };
 
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Your Account</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AccountCircleIcon color="primary" />
-      </ListItemIcon>
-      <ListItemText primary="Profile" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SettingsIcon color="primary" />
-      </ListItemIcon>
-      <ListItemText primary="Profile Settings" />
-    </ListItem>
-    <ListItem button onClick={logoutClickHandler}>
-      <ListItemIcon>
-        <LogoutIcon color="primary" />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
-    </ListItem>
-  </div>
-);
+export const SecondaryListItems = () => {
+  const currentUser = useSelector((state) => state.auth.userStatus);
+
+  return (
+    <div>
+      <ListSubheader inset>Your Account</ListSubheader>
+      <ListItem button component={Link} to={`/profile/${currentUser.userId}`}>
+        <ListItemIcon>
+          <AccountCircleIcon color="primary" />
+        </ListItemIcon>
+        <ListItemText primary="My Profile" />
+      </ListItem>
+      <ListItem
+        button
+        component={Link}
+        to={`/editProfile/${currentUser.userId}`}
+      >
+        <ListItemIcon>
+          <EditIcon color="primary" />
+        </ListItemIcon>
+        <ListItemText primary="Edit Profile" />
+      </ListItem>
+      <ListItem button onClick={logoutClickHandler}>
+        <ListItemIcon>
+          <LogoutIcon color="primary" />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </ListItem>
+    </div>
+  );
+};

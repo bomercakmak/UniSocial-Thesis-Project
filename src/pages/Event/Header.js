@@ -38,7 +38,7 @@ function Header(props) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          {title?.toUpperCase()}
         </Typography>
         {+event?.eventParticipantsLimitNumber === 0 ||
         event?.eventParticipants.length <

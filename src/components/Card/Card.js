@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import firebase from "../../api/firebase";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-
+import "./card.css";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -30,10 +30,25 @@ const ExpandMore = styled((props) => {
 
 export default function CardComp({ event }) {
   const currentUser = useSelector((state) => state.auth.userStatus);
-  const ref = firebase.firestore().collection("events");
-
+  const ref = firebase.firestore().collection("users");
+  const refEvent = firebase.firestore().collection("events");
+  const [currentEventOwner, setCurrentEventOwner] = useState();
   const unixTime = event.eventDate.seconds;
   const date = new Date(unixTime * 1000);
+
+  useEffect(() => {
+    ref
+      .where("userId", "==", event.eventOwnerId)
+      .onSnapshot((querySnapshot) => {
+        let objectval = null;
+        querySnapshot.forEach((doc) => {
+          objectval = { ...doc.data() };
+        });
+        setCurrentEventOwner(objectval);
+      });
+
+    // eslint-disable-next-line
+  }, []);
   const eventLike = () => {
     if (event.eventLikes.includes(currentUser.userId)) {
       let updatedEventLike = [];
@@ -41,7 +56,7 @@ export default function CardComp({ event }) {
         (e) => e !== currentUser.userId
       );
       const updatedEvent = { ...event, eventLikes: updatedEventLike };
-      ref
+      refEvent
         .doc(event.eventId)
         .update(updatedEvent)
         .catch((err) => {
@@ -50,38 +65,42 @@ export default function CardComp({ event }) {
       return;
     }
     event.eventLikes.push(currentUser.userId);
-    ref
+
+    refEvent
       .doc(event.eventId)
       .update(event)
       .catch((err) => {
         console.log(err);
       });
   };
+
   return (
-    <Card>
-      <NavLink
-        to={`/event/${event.eventId}`}
-        style={{ color: "inherit", textDecoration: "underline" }}
-      >
-        <CardHeader title={`${event.eventName}`} />
+    <Card style={{ marginBottom: "20px" }}>
+      <NavLink to={`/event/${event.eventId}`} className={"event-card"}>
+        <CardHeader
+          title={`${event?.eventName?.toUpperCase()}`}
+          className={"event-card"}
+        />
       </NavLink>
       <CardHeader
         avatar={
-          <Avatar
-            src={event.eventOwnerProfileImg}
-            alt={event.eventOwnerName}
-            sx={{ bgcolor: red[500] }}
-            aria-label="recipe"
-          >
-            {event.eventOwnerName.substring(0, 2)}
-          </Avatar>
+          <NavLink to={`/profile/${event.eventOwnerId}`}>
+            <Avatar
+              src={currentEventOwner?.profileImgUrl}
+              alt={currentEventOwner?.firstName}
+              sx={{ bgcolor: red[500] }}
+              aria-label="recipe"
+            >
+              {currentEventOwner?.firstName.substring(0, 2)}
+            </Avatar>
+          </NavLink>
         }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={event.eventOwnerName}
+        title={`${currentEventOwner?.firstName} ${currentEventOwner?.lastName}`}
         subheader={`On: ${date.toLocaleString()}`}
       />
       <NavLink
@@ -98,24 +117,20 @@ export default function CardComp({ event }) {
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {event.eventDescription?.length > 170
-            ? `${event.eventDescription?.substring(0, 170)}...`
+          {event.eventDescription?.length > 150
+            ? `${event.eventDescription?.substring(0, 150)}...`
             : event.eventDescription}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={eventLike}>
-          {event.eventLikes.length}
           {event.eventLikes.includes(currentUser.userId) ? (
             <FavoriteIcon />
           ) : (
             <FavoriteBorderIcon />
           )}
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-
+        {event.eventLikes.length} Likes
         <ExpandMore
           style={{
             fontSize: "15px",

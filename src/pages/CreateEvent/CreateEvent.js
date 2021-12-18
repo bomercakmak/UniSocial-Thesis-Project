@@ -88,13 +88,6 @@ const CreateEvent = () => {
       eventOnline: eventOnline,
       eventCreatedAt: timestamp(),
       eventOwnerId: currentUser.userId,
-      eventOwnerName: `${currentUser.firstName} ${currentUser.lastName}`,
-      eventOwnerProfileImg: currentUser.profileImgUrl,
-      eventOwnerEmail: currentUser.email,
-      eventOwnerAbout: currentUser.about,
-      eventOwnerDepartment: currentUser.department,
-      eventOwnerSocial: currentUser.social,
-      eventOwnerCreatedAt: currentUser.createdAt,
     };
 
     dispatch(createEvent(newEvent, history));
