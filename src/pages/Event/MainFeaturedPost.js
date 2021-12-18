@@ -22,24 +22,26 @@ function MainFeaturedPost(props) {
         backgroundImage: `url(${post.image})`,
       }}
     >
-      {/* Increase the priority of the hero background image */}
-      {
-        <img
-          style={{ display: "none" }}
-          src={post.image}
-          alt={post.imageText}
+      <Grid item md={6}>
+        {/* Increase the priority of the hero background image */}
+        {
+          <img
+            style={{ display: "none" }}
+            src={post.image}
+            alt={post.imageText}
+          />
+        }
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
+            backgroundColor: "rgba(0,0,0,.3)",
+          }}
         />
-      }
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          right: 0,
-          left: 0,
-          backgroundColor: "rgba(0,0,0,.3)",
-        }}
-      />
+      </Grid>
       <Grid container>
         <Grid item md={6}>
           <Box

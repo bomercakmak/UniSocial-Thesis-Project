@@ -40,13 +40,40 @@ function Header(props) {
         >
           {title}
         </Typography>
-        <Button variant="outlined" size="small" onClick={joinEvent}>
-          {event?.eventParticipants.includes(currentUser.userId) ? (
-            <>Exit event</>
+        {+event?.eventParticipantsLimitNumber === 0 ||
+        event?.eventParticipants.length <
+          +event?.eventParticipantsLimitNumber ||
+        event?.eventParticipants.includes(currentUser.userId) ? (
+          event?.eventParticipants.includes(currentUser.userId) ? (
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={joinEvent}
+            >
+              <>Exit event</>
+            </Button>
           ) : (
-            <>Join Event</>
-          )}
-        </Button>
+            <Button
+              variant="outlined"
+              color="success"
+              size="small"
+              onClick={joinEvent}
+            >
+              <>Join Event</>
+            </Button>
+          )
+        ) : (
+          <Button
+            variant="outlined"
+            color="success"
+            size="small"
+            disabled
+            onClick={joinEvent}
+          >
+            <>Event Full</>
+          </Button>
+        )}
       </Toolbar>
     </React.Fragment>
   );

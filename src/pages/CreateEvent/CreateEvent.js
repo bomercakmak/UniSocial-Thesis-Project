@@ -34,6 +34,10 @@ const CreateEvent = () => {
   const [eventOnline, setEventOnline] = useState("No");
   const [covidRules, setCovidRules] = useState("No");
   const [whatCovidRules, setWhatCovidRules] = useState("");
+  const [eventForm, setEventForm] = useState("No");
+  const [eventFormLink, setEventFormLink] = useState("");
+  const [contactNumber, setContactNumber] = useState("No");
+  const [contactNumberText, setContactNumberText] = useState("");
   const [limitValue, setLimitValue] = useState("Unlimited");
   const [eventDescription, setEventDescription] = useState("");
   const [eventPaid, setEventPaid] = useState("Free");
@@ -77,6 +81,10 @@ const CreateEvent = () => {
       eventCost: eventCost,
       eventCovidRules: covidRules,
       eventWhatCovidRules: whatCovidRules,
+      eventForm: eventForm,
+      eventFormLink: eventFormLink,
+      eventContactNumber: contactNumber,
+      eventContactNumberText: contactNumberText,
       eventOnline: eventOnline,
       eventCreatedAt: timestamp(),
       eventOwnerId: currentUser.userId,
@@ -105,6 +113,14 @@ const CreateEvent = () => {
   const handleCovidRules = (event) => {
     setWhatCovidRules("");
     setCovidRules(event.target.value);
+  };
+  const handleEventForm = (event) => {
+    setEventFormLink("");
+    setEventForm(event.target.value);
+  };
+  const handleContactNumber = (event) => {
+    setContactNumberText("");
+    setContactNumber(event.target.value);
   };
   const profileImgChange = (e) => {
     if (e.target.files[0]) {
@@ -308,6 +324,64 @@ const CreateEvent = () => {
           </Grid>
           <Grid item xs={3}>
             <FormLabel component="legend">
+              Is event application form exist?
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-label="gender"
+              name="row-radio-buttons-group"
+              value={eventForm}
+              onChange={handleEventForm}
+            >
+              <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+              <FormControlLabel value="No" control={<Radio />} label="No" />
+            </RadioGroup>
+          </Grid>
+          <Grid item xs={3}>
+            {eventForm === "Yes" && (
+              <TextField
+                id="eventLink"
+                label="Event Application Form Link"
+                variant="filled"
+                fullWidth
+                value={eventFormLink}
+                onChange={(e) => {
+                  setEventFormLink(e.target.value);
+                }}
+              />
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <FormLabel component="legend">
+              Is there any contact number?
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-label="gender"
+              name="row-radio-buttons-group"
+              value={contactNumber}
+              onChange={handleContactNumber}
+            >
+              <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+              <FormControlLabel value="No" control={<Radio />} label="No" />
+            </RadioGroup>
+          </Grid>
+          <Grid item xs={3}>
+            {contactNumber === "Yes" && (
+              <TextField
+                id="contactNumber"
+                label="Contact Number"
+                variant="filled"
+                fullWidth
+                value={contactNumberText}
+                onChange={(e) => {
+                  setContactNumberText(e.target.value);
+                }}
+              />
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <FormLabel component="legend">
               Are there any rules for covid?
             </FormLabel>
             <RadioGroup
@@ -324,7 +398,7 @@ const CreateEvent = () => {
           <Grid item xs={3}>
             {covidRules === "Yes" && (
               <TextField
-                id="outlined-basic"
+                id="CovidRules"
                 label="Covid Rules"
                 variant="filled"
                 fullWidth

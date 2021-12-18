@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MainFeaturedPost from "./MainFeaturedPost";
 import FeaturedPost from "./FeaturedPost";
@@ -14,59 +11,7 @@ import Sidebar from "./Sidebar";
 import firebase from "../../api/firebase";
 import { useParams } from "react-router-dom";
 import Header from "./Header";
-import Typography from "@mui/material/Typography";
-
-const mainFeaturedPost = {
-  title: "Title of a longer featured blog post",
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: "https://source.unsplash.com/random",
-  imageText: "main image description",
-  linkText: "Continue reading…",
-};
-
-const featuredPosts = [
-  {
-    title: "Featured post",
-    date: "Nov 12",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image: "https://source.unsplash.com/random",
-    imageLabel: "Image Text",
-  },
-  {
-    title: "Post title",
-    date: "Nov 11",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    image: "https://source.unsplash.com/random",
-    imageLabel: "Image Text",
-  },
-];
-
-const sidebar = {
-  title: "About",
-  description:
-    "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
-  archives: [
-    { title: "March 2020", url: "#" },
-    { title: "February 2020", url: "#" },
-    { title: "January 2020", url: "#" },
-    { title: "November 1999", url: "#" },
-    { title: "October 1999", url: "#" },
-    { title: "September 1999", url: "#" },
-    { title: "August 1999", url: "#" },
-    { title: "July 1999", url: "#" },
-    { title: "June 1999", url: "#" },
-    { title: "May 1999", url: "#" },
-    { title: "April 1999", url: "#" },
-  ],
-  social: [
-    { name: "GitHub", icon: GitHubIcon },
-    { name: "Twitter", icon: TwitterIcon },
-    { name: "Facebook", icon: FacebookIcon },
-  ],
-};
+import { confirmAlert } from "react-confirm-alert";
 
 const theme = createTheme();
 
@@ -87,6 +32,7 @@ const Event = () => {
       });
       setCurrentEvent(objectval);
     });
+    // eslint-disable-next-line
   }, [id]);
   const eventLike = () => {
     if (currentEvent?.eventLikes.includes(currentUser.userId)) {
@@ -114,29 +60,58 @@ const Event = () => {
 
   const joinEvent = () => {
     if (currentEvent?.eventParticipants.includes(currentUser.userId)) {
-      let updatedEventParticipants = [];
-      updatedEventParticipants = currentEvent?.eventParticipants.filter(
-        (e) => e !== currentUser.userId
-      );
-      const updatedEvent = {
-        ...currentEvent,
-        eventParticipants: updatedEventParticipants,
-      };
-      ref
-        .doc(currentEvent?.eventId)
-        .update(updatedEvent)
-        .catch((err) => {
-          console.log(err);
-        });
+      confirmAlert({
+        title: "Confirm to exit event!",
+        message: "Are you sure to exit event.",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => {
+              let updatedEventParticipants = [];
+              updatedEventParticipants = currentEvent?.eventParticipants.filter(
+                (e) => e !== currentUser.userId
+              );
+              const updatedEvent = {
+                ...currentEvent,
+                eventParticipants: updatedEventParticipants,
+              };
+              ref
+                .doc(currentEvent?.eventId)
+                .update(updatedEvent)
+                .catch((err) => {
+                  console.log(err);
+                });
+              return;
+            },
+          },
+          {
+            label: "No",
+          },
+        ],
+      });
       return;
     }
-    currentEvent.eventParticipants.push(currentUser.userId);
-    ref
-      .doc(currentEvent.eventId)
-      .update(currentEvent)
-      .catch((err) => {
-        console.log(err);
-      });
+    confirmAlert({
+      title: "Confirm to join event!",
+      message: "Are you sure to join event!.",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            currentEvent.eventParticipants.push(currentUser.userId);
+            ref
+              .doc(currentEvent.eventId)
+              .update(currentEvent)
+              .catch((err) => {
+                console.log(err);
+              });
+          },
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
   };
   return (
     <ThemeProvider theme={theme}>
@@ -158,6 +133,7 @@ const Event = () => {
           />
           <Grid container spacing={4}>
             <FeaturedPost
+              eventOwnerId={currentEvent?.eventOwnerId}
               description={currentEvent?.eventOwnerAbout}
               date={currentEvent?.eventOwnerDepartment}
               imageLabel={currentEvent?.eventOwnerName}
@@ -165,6 +141,7 @@ const Event = () => {
               image={currentEvent?.eventOwnerProfileImg}
             />
           </Grid>
+
           <Grid container spacing={5} sx={{ mt: 3 }}>
             <Main
               title={`Event Description`}
@@ -189,9 +166,11 @@ const Event = () => {
                   ? "Free Event"
                   : currentEvent?.eventCost
               }
+              eventFormLink={currentEvent?.eventFormLink}
+              eventContactNumberText={currentEvent?.eventContactNumberText}
               eventCovidRulesTitle="Covid Rules"
               eventCovidRules={currentEvent?.eventWhatCovidRules}
-              social={sidebar.social}
+              social={currentEvent?.eventOwnerSocial}
             />
           </Grid>
         </main>

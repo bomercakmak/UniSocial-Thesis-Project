@@ -21,6 +21,8 @@ function Sidebar(props) {
     eventFee,
     eventCovidRulesTitle,
     eventCovidRules,
+    eventFormLink,
+    eventContactNumberText,
   } = props;
 
   return (
@@ -31,25 +33,47 @@ function Sidebar(props) {
         </Typography>
         <Typography>{eventTime}</Typography>
       </Paper>
-
       <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
         <Typography variant="h6" gutterBottom>
           {eventPlaceTitle}
         </Typography>
         <Typography>{eventPlace}</Typography>
       </Paper>
-
       <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
         <Typography variant="h6" gutterBottom>
           {totalParticipantsTitle}
         </Typography>
         <Typography>
           {totalParticipants === "0" || totalParticipants === 0
-            ? "Unlimited participants."
+            ? `${eventParticipants} / Unlimited participants.`
             : `${totalParticipants} / ${eventParticipants}`}
         </Typography>
       </Paper>
-
+      <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
+        <Typography variant="h6" gutterBottom>
+          Event application form.
+        </Typography>
+        <Typography>
+          {eventFormLink === "" ? (
+            "No event application form."
+          ) : (
+            <a href={eventFormLink} alt="eventLink">
+              {" "}
+              {eventFormLink}
+            </a>
+          )}
+        </Typography>
+      </Paper>
+      <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
+        <Typography variant="h6" gutterBottom>
+          Event Contact Number
+        </Typography>
+        <Typography>
+          {eventContactNumberText === ""
+            ? "No cotnact number"
+            : eventContactNumberText}
+        </Typography>
+      </Paper>
       <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
         <Typography variant="h6" gutterBottom>
           {eventCategoryTitle}
@@ -58,7 +82,6 @@ function Sidebar(props) {
           {eventCategory === "" ? "Category not specified." : eventCategory}
         </Typography>
       </Paper>
-
       <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
         <Typography variant="h6" gutterBottom>
           {eventFeeTitle}
@@ -73,24 +96,19 @@ function Sidebar(props) {
           {eventCovidRules === "" ? "No Rules" : eventCovidRules}
         </Typography>
       </Paper>
-
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         Social
       </Typography>
-      {social.map((network) => (
-        <Link
-          display="block"
-          variant="body1"
-          href="#"
-          key={network.name}
-          sx={{ mb: 0.5 }}
-        >
-          <Stack direction="row" spacing={1} alignItems="center">
-            <network.icon />
-            <span>{network.name}</span>
-          </Stack>
-        </Link>
-      ))}
+      <Link
+        display="block"
+        variant="body1"
+        href={social || ""}
+        sx={{ mb: 0.5 }}
+      >
+        <Stack direction="row" spacing={1} alignItems="center">
+          <span>Social Media</span>
+        </Stack>
+      </Link>
     </Grid>
   );
 }

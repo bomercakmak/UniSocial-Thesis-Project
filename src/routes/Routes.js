@@ -63,6 +63,9 @@ const Routes = () => {
           <Route exact path="/event/:id">
             <Blog />
           </Route>
+          <Route exact path="/profile/:id">
+            <h1>This is profile.</h1>
+          </Route>
           <Route exact path="/events">
             <HomeCards />
           </Route>
