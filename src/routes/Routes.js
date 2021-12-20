@@ -9,6 +9,7 @@ import CreateEvent from "../pages/CreateEvent/CreateEvent";
 import Blog from "../pages/Event/Event";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/EditProfile/EditProfile";
+import EditEvent from "../pages/EditEvent/EditEvent";
 
 const Routes = () => {
   const userStatus = useSelector((state) => state.auth.userStatus);
@@ -70,6 +71,15 @@ const Routes = () => {
           </Route>
           <Route exact path="/profile/:id">
             <Profile />
+          </Route>
+          <Route exact path="/attendedEvents">
+            <HomeCards />
+          </Route>
+          <Route exact path="/likedEvents">
+            <HomeCards />
+          </Route>
+          <Route exact path="/editEvent/:id">
+            <EditEvent />
           </Route>
           <Route exact path="/events">
             <HomeCards />

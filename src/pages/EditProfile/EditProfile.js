@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Input from "@mui/material/Input";
 import { useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -17,6 +17,7 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import { storage } from "../../api/firebase";
 import profileImg from "../../assets/img/profile.png";
 import firebase from "../../api/firebase";
+import { useHistory } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 
 const theme = createTheme();
@@ -28,6 +29,7 @@ const EditProfile = () => {
   const [loadingIn, setLoadingIn] = useState(false);
   const [profileImageSrc, setProfileImageSrc] = useState(profileImg);
   const currentUser = useSelector((state) => state.auth.userStatus);
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
@@ -109,6 +111,8 @@ const EditProfile = () => {
                 .catch((err) => {
                   console.log(err);
                 });
+              toast.success("Your profile has been successfully updated.");
+              history.push(`/profile/${currentUser?.userId}`);
               return;
             },
           },
@@ -117,7 +121,6 @@ const EditProfile = () => {
           },
         ],
       });
-      return;
     }
   };
   const profileImgChange = (e) => {

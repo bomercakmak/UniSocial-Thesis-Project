@@ -111,7 +111,7 @@ const Event = () => {
     }
     confirmAlert({
       title: "Confirm to join event!",
-      message: "Are you sure to join event!.",
+      message: "Are you sure to join event!",
       buttons: [
         {
           label: "Yes",

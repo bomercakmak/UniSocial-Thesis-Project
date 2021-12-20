@@ -13,14 +13,27 @@ import { confirmAlert } from "react-confirm-alert";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
-
+import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 export const mainListItems = (
   <div>
     <ListItem button component={Link} to={"/createEvent"}>
       <ListItemIcon>
         <AddCircleOutlineIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Create Post" />
+      <ListItemText primary="Create Event" />
+    </ListItem>
+    <ListItem button component={Link} to={"/attendedEvents"}>
+      <ListItemIcon>
+        <BookmarkAddedIcon color="primary" />
+      </ListItemIcon>
+      <ListItemText primary="Attended Events" />
+    </ListItem>
+    <ListItem button component={Link} to={"/likedEvents"}>
+      <ListItemIcon>
+        <FavoriteIcon color="primary" />
+      </ListItemIcon>
+      <ListItemText primary="Liked Events" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>

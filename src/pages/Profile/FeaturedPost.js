@@ -13,7 +13,7 @@ function FeaturedPost(props) {
   return (
     <Grid item xs={12} md={6}>
       <Typography variant="h6" gutterBottom>
-        Event Owner
+        Event Organizer
       </Typography>
       <NavLink
         to={`/profile/${eventOwnerId}`}

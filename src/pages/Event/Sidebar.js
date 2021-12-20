@@ -45,8 +45,8 @@ function Sidebar(props) {
         </Typography>
         <Typography>
           {totalParticipants === "0" || totalParticipants === 0
-            ? `${eventParticipants} / Unlimited participants.`
-            : `${totalParticipants} / ${eventParticipants}`}
+            ? `Unlimited participants. / ${eventParticipants}`
+            : `${eventParticipants} / ${totalParticipants}`}
         </Typography>
       </Paper>
       <Paper elevation={0} sx={{ p: 2, bgcolor: "grey.300", mb: "10px" }}>
@@ -57,7 +57,12 @@ function Sidebar(props) {
           {eventFormLink === "" ? (
             "No event application form."
           ) : (
-            <a href={eventFormLink} alt="eventLink">
+            <a
+              href={eventFormLink}
+              target="_blank"
+              rel="noreferrer"
+              alt="eventLink"
+            >
               {" "}
               Application Link
             </a>
@@ -100,6 +105,7 @@ function Sidebar(props) {
         Social
       </Typography>
       <Link
+        target="_blank"
         display="block"
         variant="body1"
         href={social || ""}

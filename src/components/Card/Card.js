@@ -10,13 +10,21 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import firebase from "../../api/firebase";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import EditIcon from "@mui/icons-material/Edit";
 import "./card.css";
+import InfoIcon from "@mui/icons-material/Info";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MenuItem from "@mui/material/MenuItem";
+import { confirmAlert } from "react-confirm-alert";
+import { toast } from "react-toastify";
+
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Menu from "@mui/material/Menu";
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -35,6 +43,7 @@ export default function CardComp({ event }) {
   const [currentEventOwner, setCurrentEventOwner] = useState();
   const unixTime = event.eventDate.seconds;
   const date = new Date(unixTime * 1000);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     ref
@@ -74,6 +83,39 @@ export default function CardComp({ event }) {
       });
   };
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const deleteEvent = () => {
+    setAnchorEl(null);
+
+    confirmAlert({
+      title: "Confirm to delete event!",
+      message: "Are you sure to delete your event!",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            refEvent
+              .doc(event?.eventId)
+              .delete()
+              .catch((err) => {
+                console.log(err);
+              });
+            toast.success("Your event has been successfully deleted.");
+            return;
+          },
+        },
+        {
+          label: "No",
+        },
+      ],
+    });
+  };
+
   return (
     <Card style={{ marginBottom: "20px" }}>
       <NavLink to={`/event/${event.eventId}`} className={"event-card"}>
@@ -96,13 +138,85 @@ export default function CardComp({ event }) {
           </NavLink>
         }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleMenu}>
             <MoreVertIcon />
           </IconButton>
         }
         title={`${currentEventOwner?.firstName} ${currentEventOwner?.lastName}`}
         subheader={`On: ${date.toLocaleString()}`}
       />
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem
+          onClick={handleClose}
+          component={NavLink}
+          to={`/profile/${currentEventOwner?.userId}`}
+        >
+          <AccountCircle
+            style={{
+              fontSize: "20px",
+              marginRight: "10px",
+              color: "#1976D2",
+            }}
+          />
+          Organizer Profile
+        </MenuItem>
+        <MenuItem
+          onClick={handleClose}
+          component={NavLink}
+          to={`/event/${event?.eventId}`}
+        >
+          <InfoIcon
+            style={{
+              fontSize: "20px",
+              marginRight: "10px",
+              color: "#1976D2",
+            }}
+          />
+          Event Details
+        </MenuItem>
+        {currentEventOwner?.userId === currentUser?.userId && (
+          <MenuItem
+            component={NavLink}
+            to={`/editEvent/${event?.eventId}`}
+            onClick={handleClose}
+          >
+            <EditIcon
+              style={{
+                fontSize: "20px",
+                marginRight: "10px",
+                color: "#FFE400",
+              }}
+            />
+            Edit Event
+          </MenuItem>
+        )}
+        {currentEventOwner?.userId === currentUser?.userId && (
+          <MenuItem onClick={deleteEvent}>
+            <DeleteIcon
+              style={{
+                fontSize: "20px",
+                marginRight: "10px",
+                color: "#FF1700",
+              }}
+            />
+            Delete Event
+          </MenuItem>
+        )}
+      </Menu>
       <NavLink
         to={`/event/${event.eventId}`}
         style={{ color: "inherit", textDecoration: "underline" }}

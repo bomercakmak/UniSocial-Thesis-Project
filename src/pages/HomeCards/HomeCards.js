@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getEvents } from "../../redux/actions/event";
 import firebase from "../../api/firebase";
+import { useLocation } from "react-router-dom";
 // import { styled } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
 
@@ -14,21 +15,56 @@ import firebase from "../../api/firebase";
 // //   color: theme.palette.text.secondary,
 // // }));
 const HomeCards = () => {
-  const dispatch = useDispatch();
   const events = useSelector((state) => state.event.events);
-  console.log("homeeeee", events);
-  const ref = firebase.firestore().collection("events");
+  const currentUser = useSelector((state) => state.auth.userStatus);
+  const search = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    ref.onSnapshot((querySnapshot) => {
-      const events = [];
-      querySnapshot.forEach((doc) => {
-        events.push(doc.data());
+    const ref = firebase.firestore().collection("events");
+
+    console.log("geldiiii");
+    if (search.pathname === "/events") {
+      ref.onSnapshot((querySnapshot) => {
+        const eventsAll = [];
+        querySnapshot.forEach((doc) => {
+          eventsAll.push(doc.data());
+        });
+        dispatch(getEvents(eventsAll));
       });
-      dispatch(getEvents(events));
-    });
-    // eslint-disable-next-line
-  }, [dispatch]);
+      return;
+    }
+
+    if (search.pathname === "/attendedEvents" && currentUser?.userId) {
+      ref
+        .where("eventParticipants", "array-contains", currentUser?.userId)
+        .onSnapshot((querySnapshot) => {
+          const eventsAttended = [];
+          querySnapshot.forEach((doc) => {
+            eventsAttended.push(doc.data());
+          });
+          dispatch(getEvents(eventsAttended));
+        });
+      return;
+    }
+    console.log("gelid");
+    console.log(search.pathname === "/likedEvents");
+    if (search.pathname === "/likedEvents" && currentUser?.userId) {
+      console.log(search.pathname, "girdiiiiiiiii");
+      ref
+        .where("eventLikes", "array-contains", currentUser?.userId)
+        .onSnapshot((querySnapshot) => {
+          const eventsLike = [];
+          querySnapshot.forEach((doc) => {
+            eventsLike.push(doc.data());
+          });
+          console.log("girdiiiiii2iii", eventsLike);
+          dispatch(getEvents(eventsLike));
+          return;
+        });
+      return;
+    }
+  }, [dispatch, search.pathname, currentUser?.userId]);
   return (
     <div>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
