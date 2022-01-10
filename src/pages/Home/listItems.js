@@ -4,9 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CategoryIcon from "@mui/icons-material/Category";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import firebase from "../../api/firebase";
 import { confirmAlert } from "react-confirm-alert";
@@ -14,14 +12,15 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import HomeIcon from "@mui/icons-material/Home";
 export const mainListItems = (
   <div>
-    <ListItem button component={Link} to={"/createEvent"}>
+    <ListItem button component={Link} to={"/events"}>
       <ListItemIcon>
-        <AddCircleOutlineIcon color="primary" />
+        <HomeIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Create Event" />
+      <ListItemText primary="Home" />
     </ListItem>
     <ListItem button component={Link} to={"/attendedEvents"}>
       <ListItemIcon>
@@ -35,11 +34,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Liked Events" />
     </ListItem>
-    <ListItem button>
+    <ListItem button component={Link} to={"/createEvent"}>
       <ListItemIcon>
-        <CategoryIcon color="primary" />
+        <AddCircleOutlineIcon color="primary" />
       </ListItemIcon>
-      <ListItemText primary="Choose Category" />
+      <ListItemText primary="Create Event" />
     </ListItem>
   </div>
 );

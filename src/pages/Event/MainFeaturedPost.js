@@ -19,7 +19,7 @@ function MainFeaturedPost(props) {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        backgroundImage: `url(${post.image})`,
+        backgroundImage: `url("${post?.image}")`,
       }}
     >
       <Grid item md={6}>

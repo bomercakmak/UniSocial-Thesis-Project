@@ -244,6 +244,7 @@ const CreateEvent = () => {
                 >
                   <MenuItem value={""}>None</MenuItem>
                   <MenuItem value={"Festivals"}>Festivals</MenuItem>
+                  <MenuItem value={"Sports"}>Sports</MenuItem>
                   <MenuItem value={"Conferences"}>Conferences</MenuItem>
                   <MenuItem value={"Webinars"}>Webinars</MenuItem>
                 </Select>

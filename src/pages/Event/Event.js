@@ -75,7 +75,6 @@ const Event = () => {
         console.log(err);
       });
   };
-
   const joinEvent = () => {
     if (currentEvent?.eventParticipants.includes(currentUser.userId)) {
       confirmAlert({

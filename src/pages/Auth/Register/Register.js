@@ -276,7 +276,7 @@ const Register = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               {!loading ? (
-                "Sign Up"
+                "Register"
               ) : (
                 <ReactLoading
                   type={"spinningBubbles"}
@@ -289,7 +289,7 @@ const Register = () => {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <LinkMU component={NavLink} to="/login" variant="body2">
-                  Already have an account? Register
+                  Already have an account? Login
                 </LinkMU>
               </Grid>
             </Grid>

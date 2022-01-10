@@ -17,6 +17,7 @@ import { loginUser } from "../../../redux/actions/auth";
 import { toast } from "react-toastify";
 import BottomRight from "../../../components/toastify/BottomRight";
 import ReactLoading from "react-loading";
+import logo from "../../../assets/img/logo.png";
 
 const theme = createTheme();
 
@@ -50,7 +51,8 @@ const Login = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage:
+              "url(https://firebasestorage.googleapis.com/v0/b/unisocial-thesis-project.appspot.com/o/images%2FAds%C4%B1z%20tasar%C4%B1m%2022.jpg?alt=media&token=963b3b8d-5f1d-4176-8202-fc3747d0e3b9)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
